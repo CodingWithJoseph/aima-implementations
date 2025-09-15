@@ -1,0 +1,8 @@
+Suggested Workflow
+    - Implement base agent class.
+    - Implement vacuum world environment.
+    - Implement Simple Reflex Agent and test in vacuum world.
+    - Implement Model-Based Reflex Agent.
+    - Implement Goal-Based Agent.
+    - Implement Utility-Based Agent.
+    - Optionally implement a Learning Agent skeleton.
