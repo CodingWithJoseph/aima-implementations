@@ -1,45 +1,48 @@
-# 1. Base Agent
-class Agent:
-    def perceive(self, percept):
-        raise NotImplementedError
+from abc import ABC, abstractmethod
 
-    def act(self):
-        raise NotImplementedError
+# 1. Base Agent
+class Agent(ABC):
+    @abstractmethod
+    def step(self, percept):
+        pass
 
 # 2. Specific Agent Types
 class SimpleReflexAgent(Agent):
-    def __init__(self, actions):
+    def __init__(self, actions, interpret_input):
         super().__init__()
-        self.current_state = None
         self.actions = actions
+        self.interpret_input = interpret_input
 
-    def perceive(self, percept):
-        self.current_state = self.interpret_input(percept)
-        return self.act()
+    def step(self, percept):
+        state = self.interpret_input(percept)
+        return self.actions(state)
 
-    def act(self):
-        return self.actions.get(self.current_state, "NoOp")
-
-    def interpret_input(self, percept):
-        raise NotImplementedError
 
 # Model-Based Reflex Agent
-# - Has an internal model of the world.
-# - Can handle partially observable environments.
-# - Updates its model based on percepts before acting.
 class ModelBasedReflexAgent(Agent):
-    def __init__(self, actions):
+    def __init__(self, rules, sensor_model, transition_model):
         super().__init__()
-        self.current_state = None
-        self.actions = actions
+        self.state = None
+        self.rules = rules
+        self.action = 'NoOp'
+        self.sensor_model = sensor_model
+        self.transition_model = transition_model
 
-    def perceive(self, percept):
-        super().perceive(percept)
-        return self.act()
+    def update_state(self, percept):
+        predicted_state = self.transition_model(self.state, self.action)
+        self.state = self.sensor_model(predicted_state, percept)
 
-    def act(self):
-        return self.actions.get(self.percept, "NoOp")
+    def rule_match(self):
+        for condition in self.rules:
+            action = condition(self.state)
+            if action is not None:
+                return action
+        return 'NoOp'
 
+    def step(self, percept):
+        self.update_state(percept)
+        self.action = self.rule_match()
+        return self.action
 
 # Goal-Based Agent
 # - Has explicit goals.

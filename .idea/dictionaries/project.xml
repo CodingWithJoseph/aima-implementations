@@ -2,6 +2,8 @@
   <dictionary name="project">
     <words>
       <w>dijkstras</w>
+      <w>xlim</w>
+      <w>ylim</w>
     </words>
   </dictionary>
 </component>
