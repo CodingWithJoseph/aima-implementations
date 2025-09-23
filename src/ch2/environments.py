@@ -21,18 +21,24 @@ class FullyObservableVacuumEnvironment(Environment):
 
     def __init__(self, squares):
         self.squares = squares
-        self.agent_location = 0
+        self.agent_location = (0, 0)
 
     def percept(self):
         return {'location': self.agent_location, 'status': self.squares.copy()}
 
     def apply_action(self, action):
+        x, y = self.agent_location
         if action == 'suck':
-            self.squares[self.agent_location] = clean
-        elif action == 'right' and self.agent_location < len(self.squares) - 1:
-            self.agent_location += 1
-        elif action == 'left' and self.agent_location > 0:
-            self.agent_location -= 1
+            self.squares[x][y] = clean
+        else:
+            if action == 'up' and y > 0:
+                self.agent_location = (x, y - 1)
+            elif action == 'down' and y < len(self.squares) - 1:
+                self.agent_location = (x, y + 1)
+            elif action == 'right' and x < len(self.squares[0]) - 1:
+                self.agent_location = (x + 1, y)
+            elif action == 'left' and x > 0:
+                self.agent_location = (x - 1, y)
 
     def step(self, agent):
         percept = self.percept()
@@ -45,7 +51,7 @@ class PartiallyObservableVacuumEnvironment(Environment):
 
     def __init__(self, squares):
         self.squares = squares
-        self.agent_location = 0
+        self.agent_location = (0, 0)
 
     def percept(self):
         return {'location': self.agent_location, 'status': self.squares[self.agent_location]}
