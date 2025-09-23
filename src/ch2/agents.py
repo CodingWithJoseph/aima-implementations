@@ -45,19 +45,16 @@ class ModelBasedReflexAgent(Agent):
         return self.action
 
 # Goal-Based Agent
-# - Has explicit goals.
-# - Chooses actions by reasoning about future states.
-# - Can plan sequences of actions to reach the goal.
+class GoalBasedAgent(Agent):
+    def step(self, percept):
+        pass
 
 # Utility-Based Agent
-# - Uses a utility function to evaluate states.
-# - Chooses the action that maximizes expected utility.
-# - Can handle trade-offs between conflicting objectives.
+class UtilityBasedAgent(Agent):
+    def step(self, percept):
+        pass
 
 # Learning Agent
-# - Improves over time by learning from experience.
-# - Components to implement conceptually:
-#     - Performance element → selects actions.
-#     - Learning element → updates knowledge/strategy.
-#     - Critic → evaluates actions or outcomes.
-#     - Problem generator → suggests exploratory actions.
+class LearningBasedAgent(Agent):
+    def step(self, percept):
+        pass
