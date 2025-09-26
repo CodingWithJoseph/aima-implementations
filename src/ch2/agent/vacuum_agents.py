@@ -1,5 +1,7 @@
 import random
 
+def vacuum_world_2d_evaluation(env):
+    return sum(row.count('clean') for row in env.squares)
 
 def vacuum_world_evaluation(env):
     return env.squares.count('clean')
@@ -9,7 +11,8 @@ def sra_vacuum_interpret_input(percept):
 
 def  sra_vacuum_actions_2squares_1d(state):
     location, status = state
-    if status[location] == 'dirty' or status == 'dirty':
+    x, y = location
+    if status[x][y] == 'dirty' or status == 'dirty':
         return 'suck'
     elif location == 0:
         return 'right'

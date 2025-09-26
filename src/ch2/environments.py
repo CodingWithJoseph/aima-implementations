@@ -1,3 +1,4 @@
+import random
 from abc import abstractmethod, ABC
 
 clean = 'clean'
@@ -21,7 +22,9 @@ class FullyObservableVacuumEnvironment(Environment):
 
     def __init__(self, squares):
         self.squares = squares
-        self.agent_location = (0, 0)
+        height = len(squares)
+        width = len(squares[0])
+        self.agent_location = (random.randint(0, width - 1), random.randint(0, height - 1))
 
     def percept(self):
         return {'location': self.agent_location, 'status': self.squares.copy()}
@@ -51,7 +54,9 @@ class PartiallyObservableVacuumEnvironment(Environment):
 
     def __init__(self, squares):
         self.squares = squares
-        self.agent_location = (0, 0)
+        height = len(squares)
+        width = len(squares[0])
+        self.agent_location = (random.randint(0, width - 1), random.randint(0, height - 1))
 
     def percept(self):
         return {'location': self.agent_location, 'status': self.squares[self.agent_location]}
