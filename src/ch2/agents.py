@@ -20,21 +20,21 @@ class SimpleReflexAgent(Agent):
 
 # Model-Based Reflex Agent
 class ModelBasedReflexAgent(Agent):
-    def __init__(self, rules, sensor_model, transition_model):
+    def __init__(self, internal_state, rules, sensor_model, transition_model):
         super().__init__()
-        self.state = None
+        self.internal_state = internal_state
         self.rules = rules
         self.action = 'NoOp'
         self.sensor_model = sensor_model
         self.transition_model = transition_model
 
     def update_state(self, percept):
-        predicted_state = self.transition_model(self.state, self.action)
-        self.state = self.sensor_model(predicted_state, percept)
+        predicted_state = self.transition_model(self.internal_state, self.action)
+        self.internal_state = self.sensor_model(predicted_state, percept)
 
     def rule_match(self):
         for condition in self.rules:
-            action = condition(self.state)
+            action = condition(self.internal_state)
             if action is not None:
                 return action
         return 'NoOp'

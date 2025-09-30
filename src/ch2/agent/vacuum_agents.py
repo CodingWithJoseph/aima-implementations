@@ -3,26 +3,19 @@ import random
 def vacuum_world_2d_evaluation(env):
     return sum(row.count('clean') for row in env.squares)
 
-def vacuum_world_evaluation(env):
-    return env.squares.count('clean')
-
 def sra_vacuum_interpret_input(percept):
     return percept['location'], percept['status']
 
-def  sra_vacuum_actions_2squares_1d(state):
+def  sra_vacuum_actions(state):
     location, status = state
     x, y = location
-    if status[x][y] == 'dirty' or status == 'dirty':
+    if isinstance(status, str) and status == 'dirty':
         return 'suck'
-    elif location == 0:
-        return 'right'
-    else:
-        return 'left'
-
-def  sra_vacuum_actions_2d(state):
-    location, status = state
-    x, y = location
-    if status[x][y] == 'dirty' or status == 'dirty':
+    if isinstance(status, list) and isinstance(status[0], list) and status[x][y] == 'dirty':
         return 'suck'
     else:
         return random.choice(['up', 'down', 'left', 'right'])
+
+
+def transition_model_fully_observable(state, action):
+    pass
