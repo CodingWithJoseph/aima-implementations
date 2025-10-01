@@ -135,4 +135,4 @@ class PartiallyObservableGridEnvironment2D(GridEnvironment2D):
 
     def percept(self):
         x, y = self.agent_location
-        return {'location': self.agent_location, 'status': self.squares[x][y]}
+        return {'status': self.squares[x][y]}

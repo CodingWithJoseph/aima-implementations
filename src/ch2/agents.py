@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 # 1. Base Agent
 class Agent(ABC):
     @abstractmethod
@@ -20,17 +21,21 @@ class SimpleReflexAgent(Agent):
 
 # Model-Based Reflex Agent
 class ModelBasedReflexAgent(Agent):
-    def __init__(self, internal_state, rules, sensor_model, transition_model):
+    def __init__(self, internal_state, rules, sensor_model, transition_model, interpret_input):
         super().__init__()
         self.internal_state = internal_state
         self.rules = rules
         self.action = 'NoOp'
         self.sensor_model = sensor_model
         self.transition_model = transition_model
+        self.interpret_input = interpret_input
+
+    def _initialize_internal_state(self, agent_location):
+        raise NotImplementedError
 
     def update_state(self, percept):
         predicted_state = self.transition_model(self.internal_state, self.action)
-        self.internal_state = self.sensor_model(predicted_state, percept)
+        self.internal_state = self.sensor_model(predicted_state, percept, self.interpret_input)
 
     def rule_match(self):
         for condition in self.rules:
